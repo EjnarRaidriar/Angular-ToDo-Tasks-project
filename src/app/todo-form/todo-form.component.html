@@ -1,0 +1,22 @@
+<form [formGroup]="taskForm" (ngSubmit)="submitForm()">
+    <div class="form">
+        <label for="task-name">Task:</label>
+        <input type="text" id="task-name" name="task-name" class="form-control" placeholder="task name" required [formControl]="taskForm.controls.title">
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" class="form-control" placeholder="description" [formControl]="taskForm.controls.description"></textarea>
+
+        <label for="date">End date:</label>
+        <input type="datetime-local" id="date" name="end-date" min="2023-07-14" [formControl]="taskForm.controls.completeBefore">
+
+        <div class="checkbox">
+            <input type="checkbox" id="completed" name="completed" [formControl]="taskForm.controls.isCompleted">
+            <label for="completed">Completed</label>
+        </div>
+
+        <div class="buttons-container">
+            <button type="submit" [disabled]="!taskForm.valid">Save</button>
+            <button type="button" (click)="closeForm()">Close</button>
+        </div>
+    </div>
+</form>

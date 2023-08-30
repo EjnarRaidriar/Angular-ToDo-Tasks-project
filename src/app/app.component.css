@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box; */
+    
+}
+
+router-outlet {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,46 @@
+div.form {
+    overflow: hidden;
+    width: 260px;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 0.5rem;
+    padding: 5px;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 14px;
+}
+
+input,textarea {
+    font-size: 1em;
+    height: 20px;
+    padding: 2px;
+    border: 1px solid black;
+}
+
+textarea {
+    resize: vertical;
+    max-height: 100px;
+    min-height: 20px;
+}
+
+.buttons-container {
+    grid-column: 2;
+}
+
+button {
+    margin-right: 5px;
+}
+
+.checkbox {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+}
+
+label {
+    align-self: center;
+}

@@ -1,0 +1,152 @@
+.parent-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.todo-container {
+    display: grid;
+    grid-template-rows: 70px 1fr;
+}
+
+.todo-list-menu {
+    border-width: 3px 3px 1.5px 3px;
+    border-style: solid;
+    border-color: #333;
+    border-radius: 0.5rem 0.5rem 0 0;
+    width: 500px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.new-task {
+    border: revert;
+    cursor: revert;
+    appearance: revert;
+    background-color: revert;
+    margin-right: 35px;
+    margin-left: 12px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+}
+
+.new-task:hover {
+    color: #fff;
+}
+
+.task-list {
+    border-width: 1.5px 3px 3px 3px;
+    border-style: solid;
+    border-color: #333;
+    border-radius: 0 0 0.5rem 0.5rem;
+    width: 500px;
+    height: 700px;
+    display: inline-block;
+    overflow-y: auto;
+}
+
+.selected-item {
+    background-color: #00808b;
+    outline: 2px solid #00808b;
+    /* outline-offset: 1px; */
+    border-radius: 0.2rem 0 0 0.2rem;
+    /* padding: 2px; */
+}
+
+.selected-item a {
+    border: 0px;
+    background-color: #333;
+    border-radius: 0.2rem;
+    color: #fff;
+    display: block;
+    padding: 0 1rem;
+    box-shadow: inset 0 0 5px #333;
+    pointer-events: none;
+}
+
+.selected-item a:visited {
+    background-color: aqua;
+    /* color: #fff; */
+}
+
+.selected-item button {
+    background-color: #333;
+    pointer-events: none;
+}
+
+img {
+    width: 36px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {   
+    margin: 10px 20px;
+    display: grid;
+    grid-template-columns: 1fr 36px;
+    gap: 20px;
+}
+
+li a {
+    border: 1px solid #333;
+    border-radius: 0.25rem;
+    display: block;
+    padding: 0 1rem;
+    font-size: 30px;
+}
+
+li a, li a:visited {
+    color: #333;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #00808b;
+    border-radius: 0.2rem;
+    color: #fff;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    background-color: transparent;
+    width: 36px;
+    height: 36px;
+    margin: 0;
+    padding: 0;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 7px grey;
+    border-radius: 0 0 0.4rem 0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: aqua;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px #333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(0, 158, 158);
+}
+

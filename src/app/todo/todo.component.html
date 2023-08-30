@@ -1,0 +1,30 @@
+<div class="parent-container">
+    <div class="todo-container">
+        <div class="todo-list-menu">
+            <div class="filter">
+                <label for="filter">Filter by:</label>
+                <select name="filter" id="filter">
+                    <option value="all">All</option>
+                    <option value="completed">Completed</option>
+                    <option value="uncompleted">Uncompleted</option>
+                </select>
+            </div>
+            <input type="text" (input)="setSearchString($event)">
+            <button class="new-task" (click)="selectTask('')" [routerLink]="['/todo', 'new-task']">
+                +
+            </button>
+        </div>
+        <div class="task-list">
+            <ul>
+            <li *ngFor="let todo of filteredList()" [ngClass]="listClass(todo.id)">
+                <a [routerLink]="['/todo', todo.id]" (click)="selectTask(todo.id)">{{todo.title}}</a>
+                <button (click)="changeCompletion(todo.id)" class="checkbox">
+                    <img *ngIf="todo.isCompleted" src="../../assets/completed-check-box.png" alt="completed">
+                    <img *ngIf="!todo.isCompleted" src="../../assets/uncompleted-check-box.png" alt="uncompleted">
+                </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <router-outlet></router-outlet> 
+</div>
