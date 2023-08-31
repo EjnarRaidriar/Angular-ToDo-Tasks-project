@@ -57,6 +57,7 @@ export class TodoFormComponent implements OnInit {
     submitForm(): void {
         this.formToTask()
         this.taskService.setTask(this.task!, this.isNewTask);
+        this.task = undefined;
         this.resetForm();
         this.router.navigate(['/todo/new-task'])
     }
@@ -68,8 +69,11 @@ export class TodoFormComponent implements OnInit {
 
     deleteTask(): void {
         if (this.task) {
-            this.taskService.deleteTask(this.task.id);
-            this.router.navigate(['/todo'])
+            let text = "Are you sure you want to delete this task?";
+            if (confirm(text) === true) {   
+                this.taskService.deleteTask(this.task.id);
+                this.router.navigate(['/todo'])
+            }
         }
     }
 
