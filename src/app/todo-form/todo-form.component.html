@@ -1,10 +1,9 @@
-<form [formGroup]="taskForm" (ngSubmit)="submitForm()">
-    <div class="form">
+<form [formGroup]="taskForm" (ngSubmit)="submitForm()" class="form">
         <label for="task-name">Task:</label>
         <input type="text" id="task-name" name="task-name" class="form-control" placeholder="task name" required [formControl]="taskForm.controls.title">
 
         <label for="description">Description:</label>
-        <textarea id="description" name="description" class="form-control" placeholder="description" [formControl]="taskForm.controls.description"></textarea>
+        <textarea id="description" name="description" class="form-control" placeholder="description" [formControl]="taskForm.controls.description" maxlength="200"></textarea>
 
         <label for="date">End date:</label>
         <input type="datetime-local" id="date" name="end-date" min="2023-07-14" [formControl]="taskForm.controls.completeBefore">
@@ -15,8 +14,10 @@
         </div>
 
         <div class="buttons-container">
-            <button type="submit" [disabled]="!taskForm.valid">Save</button>
-            <button type="button" (click)="closeForm()">Close</button>
+            <div class="save-close">
+                <button type="submit" [disabled]="!taskForm.valid">Save</button>
+                <button type="button" (click)="closeForm()">Close</button>
+            </div>
+            <button class="delete-task" type="button" (click)="deleteTask()">Delete</button>
         </div>
-    </div>
 </form>

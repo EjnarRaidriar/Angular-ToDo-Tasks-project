@@ -1,46 +1,54 @@
-div.form {
+form {
     overflow: hidden;
-    width: 260px;
+    width: 500px;
     height: auto;
-    border: 2px solid black;
+    border: 3px solid black;
     border-radius: 0.5rem;
-    padding: 5px;
-}
-
-.form {
+    padding: 10px;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    font-size: 14px;
+    font-size: 25px;
 }
 
 input,textarea {
     font-size: 1em;
-    height: 20px;
+    height: 30px;
     padding: 2px;
     border: 1px solid black;
 }
 
 textarea {
     resize: vertical;
-    max-height: 100px;
-    min-height: 20px;
+    max-height: 200px;
+    min-height: 30px;
 }
 
 .buttons-container {
     grid-column: 2;
+    display: flex;
+    justify-content: space-between;
+}
+
+.save-close {
+    display: flex;
+    gap: 5px;
 }
 
 button {
-    margin-right: 5px;
+    font-size: 1em;
+    height: 40px;
 }
 
 .checkbox {
     grid-column: 2;
+    flex: none;
     display: flex;
     align-items: center;
 }
 
-label {
-    align-self: center;
+.checkbox input {
+    width: 20px;
+    margin-right: 5px;
 }
