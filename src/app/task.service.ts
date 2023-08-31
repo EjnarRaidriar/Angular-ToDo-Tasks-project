@@ -42,7 +42,7 @@ export class TaskService {
         this.uploadSelectedTaskId();
     }
 
-    getTodo(id: string): Todo | undefined {
+    getTask(id: string): Todo | undefined {
         return this.taskList().find(todo => todo.id === id)!;
     }
 
