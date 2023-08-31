@@ -42,6 +42,14 @@ export class TaskService {
         this.uploadSelectedTaskId();
     }
 
+    deleteTask(id: string) {
+        this.taskList.mutate(taskList => {
+            const index = taskList.findIndex(todo => todo.id === id);
+            taskList.splice(index, 1);
+        })
+        this.uploadData();
+    }
+
     getTask(id: string): Todo | undefined {
         return this.taskList().find(todo => todo.id === id)!;
     }

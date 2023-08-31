@@ -53,17 +53,24 @@ export class TodoFormComponent implements OnInit {
     ngOnDestroy() {
         this.subscribtion!.unsubscribe();
     }
-
-    closeForm(): void {
-        this.taskService.selectTask('');
-        this.router.navigate(['/todo'])
-    }
     
     submitForm(): void {
         this.formToTask()
         this.taskService.setTask(this.task!, this.isNewTask);
         this.resetForm();
         this.router.navigate(['/todo/new-task'])
+    }
+
+    closeForm(): void {
+        this.taskService.selectTask('');
+        this.router.navigate(['/todo'])
+    }
+
+    deleteTask(): void {
+        if (this.task) {
+            this.taskService.deleteTask(this.task.id);
+            this.router.navigate(['/todo'])
+        }
     }
 
     private formToTask() {
