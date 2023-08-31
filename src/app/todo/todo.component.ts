@@ -45,7 +45,13 @@ export class TodoComponent {
     }
 
     filterList(): Todo[] {
-        return this.todoList().filter(task => task.title.toLowerCase().includes(this.searchInput()))
+        // filtering by search
+        let filteredList = this.todoList().filter(task => task.title.toLowerCase().includes(this.searchInput()));
+        // filtering by completion
+        let completedList = filteredList.filter(task => task.isCompleted);
+        let uncompletedList = filteredList.filter(task => !task.isCompleted);
+        filteredList = uncompletedList.concat(completedList);
+        return filteredList;
     }
 
 
