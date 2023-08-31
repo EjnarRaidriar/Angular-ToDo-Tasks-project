@@ -79,6 +79,16 @@
     pointer-events: none;
 }
 
+.selected-item.completed-item {
+    text-decoration: line-through;
+    color: #333333b4;
+}
+
+.completed-item {
+    text-decoration: line-through;
+    color: #333333b2;
+}
+
 img {
     width: 36px;
 }

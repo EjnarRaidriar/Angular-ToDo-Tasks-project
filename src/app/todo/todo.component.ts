@@ -58,6 +58,9 @@ export class TodoComponent {
     //For CSS
     listClass(id: string) {
         if (id === this.selectedTaskId()) {
+            if (this.taskService.getTask(id)!.isCompleted) {
+                return 'selected-item completed-item';
+            }
             return 'selected-item';
         } else if (this.taskService.getTask(id)!.isCompleted) {
             return 'completed-item';
