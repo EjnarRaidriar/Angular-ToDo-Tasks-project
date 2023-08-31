@@ -8,6 +8,7 @@
 .todo-container {
     display: grid;
     grid-template-rows: 70px 1fr;
+    width: 500px;
 }
 
 .todo-list-menu {
@@ -15,10 +16,14 @@
     border-style: solid;
     border-color: #333;
     border-radius: 0.5rem 0.5rem 0 0;
-    width: 500px;
+    padding: 0 35px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
+}
+
+.filter {
+
 }
 
 .new-task {
@@ -26,8 +31,6 @@
     cursor: revert;
     appearance: revert;
     background-color: revert;
-    margin-right: 35px;
-    margin-left: 12px;
     height: 35px;
     display: flex;
     justify-content: center;
@@ -44,7 +47,6 @@
     border-style: solid;
     border-color: #333;
     border-radius: 0 0 0.5rem 0.5rem;
-    width: 500px;
     height: 700px;
     display: inline-block;
     overflow-y: auto;
@@ -53,9 +55,7 @@
 .selected-item {
     background-color: #00808b;
     outline: 2px solid #00808b;
-    /* outline-offset: 1px; */
     border-radius: 0.2rem 0 0 0.2rem;
-    /* padding: 2px; */
 }
 
 .selected-item a {
