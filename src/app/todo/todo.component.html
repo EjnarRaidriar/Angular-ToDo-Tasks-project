@@ -2,12 +2,11 @@
     <div class="todo-container">
         <div class="todo-list-menu">
             <div class="filter">
-                <mat-label for="filter">Filter by: </mat-label>
-                <mat-select name="filter" id="filter">
-                    <mat-option >All</mat-option>
-                    <mat-option >Completed</mat-option>
-                    <mat-option >Uncompleted</mat-option>
-                </mat-select>
+                <select name="filter" id="filter" (change)="setFilterOption($event)">
+                    <option value="all">All</option>
+                    <option value="completed">Completed</option>
+                    <option value="active">Uncompleted</option>
+                </select>
             </div>
             <input type="text" (input)="setSearchString($event)">
             <button class="new-task" (click)="selectTask('')" [routerLink]="['/todo', 'new-task']">
