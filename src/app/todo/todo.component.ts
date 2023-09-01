@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Signal, WritableSignal, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
+import { MatSelectModule } from '@angular/material/select'
 
 import { ActivatedRoute } from '@angular/router';
 import { TaskService } from '../task.service';
@@ -9,7 +10,6 @@ import { Todo } from '../todo.interface';
   selector: 'app-todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoComponent {
     
@@ -24,6 +24,8 @@ export class TodoComponent {
     })
 
     searchInput: WritableSignal<string> = signal('');
+
+    filterOption: string = 'all';
 
     route = inject(ActivatedRoute);
     taskService = inject(TaskService);
@@ -52,6 +54,10 @@ export class TodoComponent {
         let uncompletedList = filteredList.filter(task => !task.isCompleted);
         filteredList = uncompletedList.concat(completedList);
         return filteredList;
+    }
+
+    applyFilter(filter: string) {
+        console.log(filter);
     }
 
 
