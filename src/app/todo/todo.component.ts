@@ -47,7 +47,6 @@ export class TodoComponent {
 
     setFilterOption(e: Event) {
         this.filterOption.set((e.target as HTMLInputElement).value);
-        console.log(this.filterOption());
     }
 
     filterList(): Todo[] {
@@ -55,8 +54,25 @@ export class TodoComponent {
         let filteredList = this.todoList().filter(task => task.title.toLowerCase().includes(this.searchInput()));
         // filtering by completion
         let completedList = filteredList.filter(task => task.isCompleted);
-        let uncompletedList = filteredList.filter(task => !task.isCompleted);
-        filteredList = uncompletedList.concat(completedList);
+        let activeList = filteredList.filter(task => !task.isCompleted);
+        // filtering by filter option
+        if (this.filterOption() === 'completed') return completedList;
+        if (this.filterOption() === 'active') return activeList;
+        if (this.filterOption() === 'by date') {
+            let undefinedCompletedList = completedList.filter(task => task.completeBefore === undefined);
+            let undefinedActiveList = activeList.filter(task => task.completeBefore === undefined);
+            completedList = completedList.filter(task => task.completeBefore !== undefined);
+            activeList = activeList.filter(task => task.completeBefore !== undefined);
+            completedList.sort((a, b) => {
+                return a.completeBefore! > b.completeBefore! ? 1 : -1;
+            });
+            activeList.sort((a, b) => {
+                return a.completeBefore! > b.completeBefore! ? 1 : -1;
+            });
+            completedList = completedList.concat(undefinedCompletedList);
+            activeList = activeList.concat(undefinedActiveList);
+        }
+        filteredList = activeList.concat(completedList);
         return filteredList;
     }
 
