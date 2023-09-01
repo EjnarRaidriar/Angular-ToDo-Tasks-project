@@ -8,12 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { TodoComponent } from './todo/todo.component';
+import { TaskFilterComponent } from './task-filter/task-filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoComponent,
-    TodoFormComponent
+    TodoFormComponent,
+    TaskFilterComponent
   ],
   imports: [
     BrowserModule,
