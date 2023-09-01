@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { MatSelectModule } from '@angular/material/select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,7 +21,6 @@ import { TodoComponent } from './todo/todo.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatSelectModule,
   ],
   bootstrap: [AppComponent]
 })
