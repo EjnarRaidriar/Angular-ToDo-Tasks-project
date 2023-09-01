@@ -1,14 +1,7 @@
 <div class="parent-container">
     <div class="todo-container">
         <div class="todo-list-menu">
-            <div class="filter">
-                <select name="filter" id="filter" (change)="setFilterOption($event)">
-                    <option value="all">All</option>
-                    <option value="completed">Completed</option>
-                    <option value="active">Active</option>
-                    <option value="by date">By Date</option>
-                </select>
-            </div>
+            <app-task-filter></app-task-filter>
             <input type="text" (input)="setSearchString($event)">
             <button class="new-task" (click)="selectTask('')" [routerLink]="['/todo', 'new-task']">
                 +
