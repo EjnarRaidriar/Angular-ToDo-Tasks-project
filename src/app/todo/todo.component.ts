@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select'
+import { Component, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { TaskService } from '../task.service';
@@ -25,7 +24,7 @@ export class TodoComponent {
 
     searchInput: WritableSignal<string> = signal('');
 
-    filterOption: string = 'all';
+    filterOption: WritableSignal<string> = signal('all');
 
     route = inject(ActivatedRoute);
     taskService = inject(TaskService);
@@ -44,6 +43,11 @@ export class TodoComponent {
 
     setSearchString(e: Event) {
         this.searchInput.set((e.target as HTMLInputElement).value);
+    }
+
+    setFilterOption(e: Event) {
+        this.filterOption.set((e.target as HTMLInputElement).value);
+        console.log(this.filterOption());
     }
 
     filterList(): Todo[] {
