@@ -3,8 +3,8 @@
         <app-task-filter></app-task-filter>
         <div class="task-list">
             <ul>
-            <li *ngFor="let todo of filteredTaskList()" [ngClass]="listClass(todo.id)">
-                <a [routerLink]="['/todo', todo.id]" (click)="selectTask(todo.id)">{{todo.title}}</a>
+            <li *ngFor="let todo of filteredTaskList" [ngClass]="listClass(todo.id)">
+                <a (click)="selectTask(todo.id)">{{todo.title}}</a>
                 <button (click)="changeCompletion(todo.id)" class="checkbox">
                     <img *ngIf="todo.isCompleted" src="../../assets/completed-check-box.png" alt="completed">
                     <img *ngIf="!todo.isCompleted" src="../../assets/uncompleted-check-box.png" alt="uncompleted">
