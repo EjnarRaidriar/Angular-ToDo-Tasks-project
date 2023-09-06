@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FilterParams } from '../filterParams.interface';
 import { TaskService } from '../task.service';
 
 
@@ -14,7 +15,21 @@ export class TaskMenuComponent {
     route = inject(ActivatedRoute);
     taskService = inject(TaskService);
 
-    changeCompletion(completionFilter: string) {
+    filter: FilterParams = {
+        completion: 'all',
+        orderByDate: 'default',
+        search: ''
+    }
+
+    ngOnInit() {
+        this.filter = {
+            completion: this.route.snapshot.queryParams['completion'] || 'all',
+            orderByDate: this.route.snapshot.queryParams['orderByDate'] || 'default',
+            search: this.route.snapshot.queryParams['search'] || ''
+        }
+    }
+
+    changeCompletionFilter(completionFilter: string) {
         this.router.navigate(
             [],
             {
@@ -25,7 +40,7 @@ export class TaskMenuComponent {
         )
     }
 
-    changeOrderByDate(orderByDate: string) {
+    changeOrderByDateFilter(orderByDate: string) {
         this.router.navigate(
             [],
             {
@@ -45,6 +60,20 @@ export class TaskMenuComponent {
                 queryParamsHandling: 'merge'
             }
         )
+    }
+
+    checkCompletion(completionFilter: string): boolean {
+        if (this.filter.completion == completionFilter) {
+            return true;
+        }
+        return false;
+    }
+
+    checkOrderByDate(orderByDate: string): boolean {
+        if (this.filter.orderByDate == orderByDate) {
+            return true;
+        }
+        return false;
     }
 
     selectTask(id: string) {

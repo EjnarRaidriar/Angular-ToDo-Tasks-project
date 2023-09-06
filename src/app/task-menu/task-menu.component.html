@@ -2,37 +2,37 @@
     <div class="completion-container">
         <legend>Completion</legend>
         <div>
-            <input type="radio" name="completion" id="all" checked>
-            <label for="all" (click)="changeCompletion('all')">All</label>
+            <input type="radio" name="completion" id="all"  (click)="changeCompletionFilter('all')" [checked]="checkCompletion('all')">
+            <label for="all">All</label>
         </div>
         <div>
-            <input type="radio" name="completion" id="completed" (click)="changeCompletion('completed')">
+            <input type="radio" name="completion" id="completed" (click)="changeCompletionFilter('completed')" [checked]="checkCompletion('completed')">
             <label for="completed">Completed</label>
         </div>
         <div>
-            <input type="radio" name="completion" id="active" (click)="changeCompletion('active')">
+            <input type="radio" name="completion" id="active" (click)="changeCompletionFilter('active')" [checked]="checkCompletion('active')">
             <label for="active">Active</label>
         </div>
     </div>
     <div class="date-order-container">
         <legend>Order by Date</legend>
         <div class="date-order-value-default">
-            <input type="radio" name="order" id="default" checked (click)="changeOrderByDate('default')">
+            <input type="radio" name="order" id="default" checked (click)="changeOrderByDateFilter('default')" [checked]="checkOrderByDate('default')">
             <label for="default">Default</label>
         </div>
         <div>
-            <input type="radio" name="order" id="asc" (click)="changeOrderByDate('asc')">
+            <input type="radio" name="order" id="asc" (click)="changeOrderByDateFilter('asc')" [checked]="checkOrderByDate('asc')">
             <label for="asc">Ascending</label>
         </div>
         <div>
-            <input type="radio" name="order" id="desc" (click)="changeOrderByDate('desc')">
+            <input type="radio" name="order" id="desc" (click)="changeOrderByDateFilter('desc')" [checked]="checkOrderByDate('desc')">
             <label for="desc">Descending</label>
         </div>
     </div>
 </div>
 <div class="search-and-new-task-container">
     <div class="search-container">
-        <input type="text" class="search-bar" (input)="inputSearch(search.value)" #search>
+        <input type="text" class="search-bar" (input)="inputSearch(search.value)" #search [ngModel]="filter.search">
     </div>
     <div class="new-task-container">
         <button class="new-task" (click)="selectTask('')" [routerLink]="['/todo', 'new-task']">
