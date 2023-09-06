@@ -6,7 +6,7 @@
         <textarea id="description" name="description" class="form-control" placeholder="description" [formControl]="taskForm.controls.description" maxlength="200"></textarea>
 
         <label for="date">End date:</label>
-        <input type="datetime-local" id="date" name="end-date" min="2023-07-14" [formControl]="taskForm.controls.completeBefore">
+        <input type="datetime-local" id="date" name="end-date" min="2023-07-14" [formControl]="taskForm.controls.dueDate">
 
         <div class="checkbox">
             <input type="checkbox" id="completed" name="completed" [formControl]="taskForm.controls.isCompleted">
