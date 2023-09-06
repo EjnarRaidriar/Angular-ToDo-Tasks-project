@@ -32,6 +32,7 @@
 </div>
 <div class="search-and-new-task-container">
     <div class="search-container">
+        <label for="search">Search:</label>
         <input type="text" class="search-bar" (input)="inputSearch(search.value)" #search [ngModel]="filter.search">
     </div>
     <div class="new-task-container">
