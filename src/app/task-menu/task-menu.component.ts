@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TaskService } from '../task.service';
 
 
 @Component({
@@ -11,6 +12,7 @@ export class TaskMenuComponent {
 
     router = inject(Router);
     route = inject(ActivatedRoute);
+    taskService = inject(TaskService);
 
     changeCompletion(completionFilter: string) {
         this.router.navigate(
@@ -43,6 +45,10 @@ export class TaskMenuComponent {
                 queryParamsHandling: 'merge'
             }
         )
+    }
+
+    selectTask(id: string) {
+        this.taskService.selectTask(id);
     }
 
 }
