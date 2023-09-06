@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import * as moment from 'moment';
-import { Subscription } from 'rxjs';
+import { Subscription, merge } from 'rxjs';
 
 import { TaskService } from '../task.service';
 import { Todo } from '../todo.interface';
@@ -13,7 +13,7 @@ import { Todo } from '../todo.interface';
 interface TodoForm {
     title: FormControl<string>;
     description: FormControl<string>;
-    completeBefore: FormControl<string>;
+    dueDate: FormControl<string>;
     isCompleted: FormControl<boolean>;
 }
 
@@ -35,7 +35,7 @@ export class TodoFormComponent implements OnInit {
     taskForm = new FormGroup<TodoForm>({
         title: new FormControl('', {nonNullable: true}),
         description: new FormControl('', {nonNullable: true}),
-        completeBefore: new FormControl('', {nonNullable: true}),
+        dueDate: new FormControl('', {nonNullable: true}),
         isCompleted: new FormControl(false, {nonNullable: true})
     })
 
@@ -59,12 +59,12 @@ export class TodoFormComponent implements OnInit {
         this.taskService.setTask(this.task!, this.isNewTask);
         this.task = undefined;
         this.resetForm();
-        this.router.navigate(['/todo/new-task'])
+        this.router.navigate(['/todo/new-task'], {queryParamsHandling: 'merge'})
     }
 
     closeForm(): void {
         this.taskService.selectTask('');
-        this.router.navigate(['/todo'])
+        this.router.navigate(['/todo'], {queryParamsHandling: 'merge'})
     }
 
     deleteTask(): void {
@@ -72,7 +72,7 @@ export class TodoFormComponent implements OnInit {
             let text = "Are you sure you want to delete this task?";
             if (confirm(text) === true) {   
                 this.taskService.deleteTask(this.task.id);
-                this.router.navigate(['/todo'])
+                this.router.navigate(['/todo'], {queryParamsHandling: 'merge'})
             }
         }
     }
@@ -103,12 +103,12 @@ export class TodoFormComponent implements OnInit {
         if (this.task) {
             this.taskForm.get('title')!.setValue(this.task.title);
             this.taskForm.get('description')!.setValue(this.task.description);
-            this.taskForm.get('completeBefore')!.setValue(this.taskDateToString());
+            this.taskForm.get('dueDate')!.setValue(this.taskDateToString());
             this.taskForm.get('isCompleted')!.setValue(this.task.isCompleted);
         } else {
             this.taskForm.get('title')!.setValue('');
             this.taskForm.get('description')!.setValue('');
-            this.taskForm.get('completeBefore')!.setValue('');
+            this.taskForm.get('dueDate')!.setValue('');
             this.taskForm.get('isCompleted')!.setValue(false);
         }
     }
@@ -116,24 +116,24 @@ export class TodoFormComponent implements OnInit {
     private resetForm(): void {
         this.taskForm.get('title')!.setValue('');
         this.taskForm.get('description')!.setValue('');
-        this.taskForm.get('completeBefore')!.setValue('');
+        this.taskForm.get('dueDate')!.setValue('');
         this.taskForm.get('isCompleted')!.setValue(false);
     }
 
     private stringToTaskDate() {
         const form = this.taskForm.controls;
         let date: Date | null = null;
-        if (form.completeBefore.value !== '') {
-            date = new Date(form.completeBefore.value);
+        if (form.dueDate.value !== '') {
+            date = new Date(form.dueDate.value);
         }
         if (date) {
-            this.task!.completeBefore = date;
+            this.task!.dueDate = date;
         }
     }
     
     private taskDateToString(): string {
-        if (this.task!.hasOwnProperty('completeBefore')) {
-            return moment(this.task!.completeBefore).format('y-MM-DDTHH:mm');
+        if (this.task!.hasOwnProperty('dueDate')) {
+            return moment(this.task!.dueDate).format('y-MM-DDTHH:mm');
         } else {
             return '';
         }
