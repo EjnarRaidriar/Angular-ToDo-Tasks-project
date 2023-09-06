@@ -1,0 +1,36 @@
+<div class="filter-conteiner">
+    <div class="completion-container">
+        <legend>Completion</legend>
+        <div>
+            <input type="radio" name="completion" id="all" checked>
+            <label for="all" (click)="changeCompletion('all')">All</label>
+        </div>
+        <div>
+            <input type="radio" name="completion" id="completed" (click)="changeCompletion('completed')">
+            <label for="completed">Completed</label>
+        </div>
+        <div>
+            <input type="radio" name="completion" id="active" (click)="changeCompletion('active')">
+            <label for="active">Active</label>
+        </div>
+    </div>
+    <div class="date-order-container">
+        <legend>Order by Date</legend>
+        <div class="date-order-value-default">
+            <input type="radio" name="order" id="default" checked (click)="changeOrderByDate('default')">
+            <label for="default">Default</label>
+        </div>
+        <div>
+            <input type="radio" name="order" id="asc" (click)="changeOrderByDate('asc')">
+            <label for="asc">Ascending</label>
+        </div>
+        <div>
+            <input type="radio" name="order" id="desc" (click)="changeOrderByDate('desc')">
+            <label for="desc">Descending</label>
+        </div>
+    </div>
+</div>
+<input type="text" (input)="inputSearch(search.value)" #search>
+
+
+
