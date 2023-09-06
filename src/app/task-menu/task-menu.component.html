@@ -30,7 +30,13 @@
         </div>
     </div>
 </div>
-<input type="text" (input)="inputSearch(search.value)" #search>
-
-
-
+<div class="search-and-new-task-container">
+    <div class="search-container">
+        <input type="text" class="search-bar" (input)="inputSearch(search.value)" #search>
+    </div>
+    <div class="new-task-container">
+        <button class="new-task" (click)="selectTask('')" [routerLink]="['/todo', 'new-task']">
+            New Task
+        </button>
+    </div>
+</div>

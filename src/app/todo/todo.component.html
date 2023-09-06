@@ -1,12 +1,6 @@
 <div class="parent-container">
     <div class="todo-container">
-        <div class="todo-list-menu">
-            <app-task-filter></app-task-filter>
-            <input type="text" (input)="setSearchString($event)">
-            <button class="new-task" (click)="selectTask('')" [routerLink]="['/todo', 'new-task']">
-                +
-            </button>
-        </div>
+        <app-task-filter></app-task-filter>
         <div class="task-list">
             <ul>
             <li *ngFor="let todo of filteredList()" [ngClass]="listClass(todo.id)">
