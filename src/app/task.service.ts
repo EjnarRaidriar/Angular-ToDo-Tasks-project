@@ -2,6 +2,7 @@ import { Injectable, WritableSignal, signal } from '@angular/core';
 
 import { Todo } from './todo.interface';
 import { FilterParams } from './filterParams.interface';
+import { Observable, of } from 'rxjs';
 
 
 
@@ -18,14 +19,14 @@ export class TaskService {
         search: ''
     });
 
-    selectedTaskId: WritableSignal<string | null> = signal(null);
+    selectedTask: WritableSignal<Todo | undefined> = signal(undefined);
 
     taskList: WritableSignal<Todo[]> = signal([]);
 
     changeCompletion(id: string) {
-        this.taskList.mutate(value => {
-            const index = value.findIndex(todo => todo.id === id);
-            value[index].isCompleted = !value[index].isCompleted;
+        this.taskList.mutate(taskList => {
+            const index = this.findTaskIndexById(id);
+            taskList[index].isCompleted = !taskList[index].isCompleted;
         })
         this.uploadData();
     }
@@ -47,20 +48,32 @@ export class TaskService {
     }
 
     selectTask(id: string) {
-        this.selectedTaskId.set(id);
-        this.uploadSelectedTaskId();
+        const task = this.findTaskById(id);
+        this.selectedTask.set(task!);
+    }
+
+    findTaskById(id: string): Todo | undefined{
+        return this.taskList().find(todo => todo.id === id);
+    }
+
+    findTaskIndexById(id: string): number {
+        return this.taskList().findIndex(todo => todo.id === id);
     }
 
     deleteTask(id: string) {
         this.taskList.mutate(taskList => {
-            const index = taskList.findIndex(todo => todo.id === id);
+            const index = this.findTaskIndexById(id);
             taskList.splice(index, 1);
         })
         this.uploadData();
     }
 
-    getTask(id: string): Todo | undefined {
-        return this.taskList().find(todo => todo.id === id)!;
+    getTask(id: string): Observable<Todo> {
+        return of(this.findTaskById(id)!);
+    }
+
+    isSelectedTaskCompleted(): boolean {
+        return this.taskList().find(todo => todo.id === this.selectedTask()!.id)!.isCompleted;
     }
 
     uploadData() {
@@ -69,18 +82,13 @@ export class TaskService {
     
     loadData(){
         // localStorage.clear();
-        let todoList = <Todo[]>JSON.parse(localStorage.getItem(this.storageKey) || '[]');
+        const todoList = <Todo[]>JSON.parse(localStorage.getItem(this.storageKey) || '[]');
         this.taskList.set(todoList);
-        this.selectedTaskId.set(this.loadSelectedTaskId());
-    }
-
-    uploadSelectedTaskId() {
-        localStorage.setItem('selectedTaskId', JSON.stringify(this.selectedTaskId()));
-    }
-
-    loadSelectedTaskId() {
-        let selectedTaskId = <string>JSON.parse(localStorage.getItem('selectedTaskId') || '""');
-        this.selectedTaskId.set(selectedTaskId);
-        return selectedTaskId;
+        try {
+            const selectedTask = <Todo>JSON.parse(localStorage.getItem('selectedTask') || '{}')
+            this.selectedTask.set(selectedTask);
+        } catch (err) {
+            console.log(err);
+        }
     }
 }
