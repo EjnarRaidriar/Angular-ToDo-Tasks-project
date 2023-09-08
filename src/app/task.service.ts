@@ -1,6 +1,8 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 
 import { Todo } from './todo.interface';
+import { FilterParams } from './filterParams.interface';
+
 
 
 @Injectable({
@@ -10,11 +12,15 @@ export class TaskService {
 
     private storageKey = 'todos';
 
+    activeFilters: WritableSignal<FilterParams> = signal({
+        completion: 'all',
+        orderByDate: 'default',
+        search: ''
+    });
+
     selectedTaskId: WritableSignal<string | null> = signal(null);
 
     taskList: WritableSignal<Todo[]> = signal([]);
-
-    constructor() { }
 
     changeCompletion(id: string) {
         this.taskList.mutate(value => {
@@ -25,7 +31,6 @@ export class TaskService {
     }
 
     setTask(task: Todo, isNewTask: boolean) {
-
         this.taskList.mutate(taskList => {
             if (isNewTask) {
                 taskList.push(task);
@@ -35,6 +40,10 @@ export class TaskService {
             }
         })
         this.uploadData();
+    }
+
+    setFilter(filter: FilterParams) {
+        this.activeFilters.set(filter);
     }
 
     selectTask(id: string) {
