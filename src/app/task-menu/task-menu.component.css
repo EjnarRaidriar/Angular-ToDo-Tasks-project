@@ -1,23 +1,31 @@
-/* .menu-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    font-size: 20px;
-} */
-
-.filter-conteiner {
+.filters {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
+    height: auto;
     font-size: 10px;
 }
 
-.completion-container {
-
+.filter-container {
+    border: 2px solid #333;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    width: 150px;
 }
 
-.date-order-container {
+.reset-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.reset-button {
+    cursor: pointer;
+    height: 35px;
+    width: 100px;
 }
 
 .search-and-new-task-container {
@@ -31,9 +39,6 @@
     align-items: center;
     align-content: center;
 }
-.search-container {
-
-}
 
 .search-bar {
     border: 1px solid #333;
@@ -45,29 +50,48 @@
 }
 
 .new-task {
-    border: revert;
-    cursor: revert;
-    appearance: revert;
-    background-color: revert;
+    cursor: pointer;
     height: 35px;
     width: 100px;
 }
 
-.new-task:hover {
-    color: #fff;
+.filter-name {
+    /* border-bottom: 1px solid #333; */
+    font-size: 20px;
 }
 
-button {
-    border: none;
-    cursor: pointer;
-    appearance: none;
-    background-color: transparent;
-    width: 36px;
-    height: 36px;
-    margin: 0;
-    padding: 0;
+.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    color: #fff;
+    display: block;
+    box-shadow: inset 0 0 5px #333;
+    pointer-events: none;
 }
+
+a {
+    border-top: 1px solid #333;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    height: 20px;
+    font-size: 15px;
+}
+
+a:hover {
+    background-color: #00808b;
+    color: #fff;
+    cursor: pointer;
+
+}
+
+/* a:visited {
+    color: #333;
+} */
 
 button:hover {
     background-color: #333;
+    color: #fff;
 }
