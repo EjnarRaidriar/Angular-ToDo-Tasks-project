@@ -43,11 +43,15 @@ export class TodoFormComponent implements OnInit {
         this.subscribtion = this.route.paramMap.subscribe((params) => {
             let id = params.get('id');
             if (id) {
-                this.task = this.taskService.getTask(id);
+                this.getTask(id);
                 this.taskService.selectTask(id);
                 this.initForm();
             }
         })
+    }
+
+    getTask(id: string): void {
+        this.taskService.getTask(id).subscribe(task => this.task = task);
     }
     
     ngOnDestroy() {
