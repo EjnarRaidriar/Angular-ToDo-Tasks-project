@@ -53,11 +53,6 @@ app-task-filter {
     pointer-events: none;
 }
 
-.selected-item a:visited {
-    background-color: aqua;
-    /* color: #fff; */
-}
-
 .selected-item button {
     background-color: #333;
     pointer-events: none;
@@ -98,15 +93,11 @@ li a {
     padding: 5px 10px;
 }
 
-li a, li a:visited {
-    color: #333;
-    text-decoration: none;
-}
-
 li a:hover {
     background-color: #00808b;
     border-radius: 0.2rem;
     color: #fff;
+    cursor: pointer;
 }
 
 button {
@@ -135,7 +126,7 @@ button:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: aqua;
+    background: #00808b;
     border-radius: 5px;
     box-shadow: inset 0 0 5px #333;
 }
