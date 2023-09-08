@@ -101,15 +101,19 @@ export class TodoFormComponent implements OnInit {
     
     private initForm(): void {
         if (this.task) {
-            this.taskForm.get('title')!.setValue(this.task.title);
-            this.taskForm.get('description')!.setValue(this.task.description);
-            this.taskForm.get('dueDate')!.setValue(this.taskDateToString());
-            this.taskForm.get('isCompleted')!.setValue(this.task.isCompleted);
+            this.taskForm.patchValue({
+                title: this.task.title,
+                description: this.task.description,
+                dueDate: this.taskDateToString(),
+                isCompleted: this.task.isCompleted
+            })
         } else {
-            this.taskForm.get('title')!.setValue('');
-            this.taskForm.get('description')!.setValue('');
-            this.taskForm.get('dueDate')!.setValue('');
-            this.taskForm.get('isCompleted')!.setValue(false);
+            this.taskForm.patchValue({
+                title: '',
+                description: '',
+                dueDate: '',
+                isCompleted: false
+            })
         }
     }
 
