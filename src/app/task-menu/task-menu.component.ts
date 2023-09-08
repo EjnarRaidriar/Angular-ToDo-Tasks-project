@@ -29,7 +29,7 @@ export class TaskMenuComponent {
         }
     }
 
-    changeCompletionFilter(completionFilter: string) {
+    setCompletionFilter(completionFilter: string) {
         this.router.navigate(
             [],
             {
@@ -40,7 +40,7 @@ export class TaskMenuComponent {
         )
     }
 
-    changeOrderByDateFilter(orderByDate: string) {
+    setOrderByDateFilter(orderByDate: string) {
         this.router.navigate(
             [],
             {
@@ -56,7 +56,7 @@ export class TaskMenuComponent {
             [],
             {
                 relativeTo: this.route,
-                queryParams: { search: search },
+                queryParams: { search: search.toLowerCase() },
                 queryParamsHandling: 'merge'
             }
         )
@@ -76,8 +76,19 @@ export class TaskMenuComponent {
         return false;
     }
 
-    selectTask(id: string) {
-        this.taskService.selectTask(id);
+    resetFilters() {
+        this.router.navigate([], {relativeTo: this.route})
+    }
+
+    newTask() {
+        console.log('new task');
+        this.router.navigate(
+            ["todo/new-task"],
+            {
+                // relativeTo: this.route,
+                queryParamsHandling: 'merge'
+            }
+        )
     }
 
 }
