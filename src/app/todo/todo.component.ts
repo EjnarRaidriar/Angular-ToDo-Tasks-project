@@ -16,8 +16,8 @@ import { Todo } from '../todo.interface';
 })
 export class TodoComponent {
     
-    selectedTaskId: Signal<string | null> = computed(() => {
-        return this.taskService.selectedTaskId()});
+    selectedTask: Signal<Todo | undefined> = computed(() => {
+        return this.taskService.selectedTask()});
 
     taskList: Signal<Todo[]> = computed(() => {
         return this.taskService.taskList()});
@@ -52,10 +52,6 @@ export class TodoComponent {
         this.filterSubscribtion!.unsubscribe();
     }
 
-    filterTasksOnChange = effect(() => {
-        this.filterTasks();
-    }) 
-
     changeCompletion(id: string) {
         this.taskService.changeCompletion(id);
     }
@@ -65,30 +61,12 @@ export class TodoComponent {
         this.taskService.selectTask(id);
     }
 
-    listClass(id: string) {
-        if (id === this.selectedTaskId()) {
-            if (this.taskService.getTask(id)!.isCompleted) {
-                return 'selected-item completed-item';
-            }
-            return 'selected-item';
-        } else if (this.taskService.getTask(id)!.isCompleted) {
-            return 'completed-item';
-        } else {
-            return 'active-item';
-        }
-    }
-
     filterTasks() {
         let filteredTasks = this.taskList();
-
         filteredTasks = this.filterSearch(filteredTasks);
-        
         filteredTasks = this.filterCompletion(filteredTasks);
-
         filteredTasks = this.filterByDate(filteredTasks);
-
         filteredTasks = this.orderCompletion(filteredTasks);
-
         this.filteredTaskList = filteredTasks;
     }
 
@@ -104,6 +82,12 @@ export class TodoComponent {
             return list.filter((task) => task.isCompleted);
         }
         return list;
+    }
+
+    orderCompletion(list: Todo[]): Todo[] {
+        let activeTasks = list.filter((task) => !task.isCompleted);
+        let completedTasks = list.filter((task) => task.isCompleted);
+        return activeTasks.concat(completedTasks);
     }
 
     filterByDate(list: Todo[]): Todo[] {
@@ -131,9 +115,24 @@ export class TodoComponent {
         return datedTasks.concat(undatedTasks);
     }
 
-    orderCompletion(list: Todo[]): Todo[] {
-        let activeTasks = list.filter((task) => !task.isCompleted);
-        let completedTasks = list.filter((task) => task.isCompleted);
-        return activeTasks.concat(completedTasks);
+    itemClass(id: string): string {
+        if (this.isSelectedItem(id) && this.isCompletedItem(id)) {
+            return 'selected-item completed-item';
+        }
+        if (this.isSelectedItem(id)) {
+            return 'selected-item';
+        }
+        if (this.isCompletedItem(id)) {
+            return 'completed-item';
+        }
+        return 'active-item';
+    }
+
+    isSelectedItem(id: string): boolean {
+        return this.selectedTask()?.id === id;
+    }
+
+    isCompletedItem(id: string): boolean {
+        return this.taskService.findTaskById(id)?.isCompleted || false;
     }
 }
