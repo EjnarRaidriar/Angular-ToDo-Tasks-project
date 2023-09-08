@@ -73,7 +73,7 @@ export class TaskService {
     }
 
     isSelectedTaskCompleted(): boolean {
-        return this.taskList().find(todo => todo.id === this.selectedTask()!.id)!.isCompleted;
+        return this.selectedTask()!.isCompleted;
     }
 
     uploadData() {
