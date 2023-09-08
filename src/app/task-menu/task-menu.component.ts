@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, Signal, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FilterParams } from '../filterParams.interface';
+import { FilterParams, Completion, OrderByDate } from '../filterParams.interface';
 import { TaskService } from '../task.service';
 
 
@@ -15,21 +15,20 @@ export class TaskMenuComponent {
     route = inject(ActivatedRoute);
     taskService = inject(TaskService);
 
-    filter: FilterParams = {
-        completion: 'all',
-        orderByDate: 'default',
-        search: ''
-    }
+    filter: Signal<FilterParams> = computed(() => {
+        return this.taskService.activeFilters();
+    });
 
     ngOnInit() {
-        this.filter = {
+        let newFilter: FilterParams = {
             completion: this.route.snapshot.queryParams['completion'] || 'all',
             orderByDate: this.route.snapshot.queryParams['orderByDate'] || 'default',
             search: this.route.snapshot.queryParams['search'] || ''
         }
+        this.taskService.setFilter(newFilter);
     }
 
-    setCompletionFilter(completionFilter: string) {
+    setCompletionFilter(completionFilter: Completion['value']) {
         this.router.navigate(
             [],
             {
@@ -38,9 +37,10 @@ export class TaskMenuComponent {
                 queryParamsHandling: 'merge'
             }
         )
+        this.newFilter(completionFilter, undefined, undefined);
     }
 
-    setOrderByDateFilter(orderByDate: string) {
+    setOrderByDateFilter(orderByDate: OrderByDate['value']) {
         this.router.navigate(
             [],
             {
@@ -48,7 +48,8 @@ export class TaskMenuComponent {
                 queryParams: { orderByDate: orderByDate },
                 queryParamsHandling: 'merge'
             }
-        )
+        );
+        this.newFilter(undefined, orderByDate, undefined);
     }
 
     inputSearch(search: string) {
@@ -60,28 +61,56 @@ export class TaskMenuComponent {
                 queryParamsHandling: 'merge'
             }
         )
+        this.newFilter(undefined, undefined, search.toLowerCase());
     }
 
-    checkCompletion(completionFilter: string): boolean {
-        if (this.filter.completion == completionFilter) {
-            return true;
+    newFilter(newCompletion?: 'all'| 'completed'|'active',
+            newOrderByDate?: 'default' | 'asc' | 'desc',
+            newSearch?: string) {
+        if (newCompletion) {
+            const newFilter: FilterParams = {
+                completion: newCompletion,
+                orderByDate: this.filter().orderByDate,
+                search: this.filter().search
+            }
+            this.taskService.setFilter(newFilter);
+            return;
         }
-        return false;
+        if (newOrderByDate) {
+            const newFilter: FilterParams = {
+                completion: this.filter().completion,
+                orderByDate: newOrderByDate,
+                search: this.filter().search
+            }
+            this.taskService.setFilter(newFilter);
+            return;
+        }
+        if (newSearch) {
+            const newFilter: FilterParams = {
+                completion: this.filter().completion,
+                orderByDate: this.filter().orderByDate,
+                search: newSearch
+            }
+            this.taskService.setFilter(newFilter);
+            return;
+        }
+        this.taskService.setFilter({completion: "all", orderByDate: "default", search: ""});
     }
 
-    checkOrderByDate(orderByDate: string): boolean {
-        if (this.filter.orderByDate == orderByDate) {
-            return true;
-        }
-        return false;
+    isSelecetedOrder(filter: "default" | "asc" | "desc"): boolean {
+        return this.filter().orderByDate === filter;
+    }
+
+    isSelectedCompletion(filter: "all" | "active" | "completed"): boolean {
+        return this.filter().completion === filter;
     }
 
     resetFilters() {
         this.router.navigate([], {relativeTo: this.route})
+        this.newFilter();
     }
 
     newTask() {
-        console.log('new task');
         this.router.navigate(
             ["todo/new-task"],
             {
