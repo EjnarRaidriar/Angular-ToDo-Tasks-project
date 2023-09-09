@@ -11,7 +11,7 @@ import { Observable, of } from 'rxjs';
 })
 export class TaskService {
 
-    private storageKey = 'todos';
+    private _storageKey = 'todos';
 
     activeFilters: WritableSignal<FilterParams> = signal({
         completion: 'all',
@@ -77,12 +77,12 @@ export class TaskService {
     }
 
     uploadData() {
-        localStorage.setItem(this.storageKey, JSON.stringify(this.taskList()));
+        localStorage.setItem(this._storageKey, JSON.stringify(this.taskList()));
     }
     
     loadData(){
         // localStorage.clear();
-        const todoList = <Todo[]>JSON.parse(localStorage.getItem(this.storageKey) || '[]');
+        const todoList = <Todo[]>JSON.parse(localStorage.getItem(this._storageKey) || '[]');
         this.taskList.set(todoList);
         try {
             const selectedTask = <Todo>JSON.parse(localStorage.getItem('selectedTask') || '{}')

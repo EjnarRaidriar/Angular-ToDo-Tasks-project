@@ -22,6 +22,8 @@ export class TodoComponent {
     taskList: Signal<Todo[]> = computed(() => {
         return this.taskService.taskList()});
 
+
+    // TODO: change it to signal and include filter singal and list signal
     filteredTaskList: Todo[] = [];
 
     filter: FilterParams = {
@@ -44,7 +46,7 @@ export class TodoComponent {
                 orderByDate: params['orderByDate'] || 'default',
                 search: params['search'] || ''
             }
-            this.filterTasks();
+            this._filterTasks();
         })
     }
 
@@ -61,20 +63,20 @@ export class TodoComponent {
         this.taskService.selectTask(id);
     }
 
-    filterTasks() {
+    private _filterTasks() {
         let filteredTasks = this.taskList();
-        filteredTasks = this.filterSearch(filteredTasks);
-        filteredTasks = this.filterCompletion(filteredTasks);
-        filteredTasks = this.filterByDate(filteredTasks);
-        filteredTasks = this.orderCompletion(filteredTasks);
+        filteredTasks = this._filterSearch(filteredTasks);
+        filteredTasks = this._filterCompletion(filteredTasks);
+        filteredTasks = this._filterByDate(filteredTasks);
+        filteredTasks = this._orderCompletion(filteredTasks);
         this.filteredTaskList = filteredTasks;
     }
 
-    filterSearch(list: Todo[]): Todo[] {
+    private _filterSearch(list: Todo[]): Todo[] {
         return list.filter(task => task.title.toLowerCase().includes(this.filter.search));
     }
 
-    filterCompletion(list: Todo[]): Todo[] {
+    private _filterCompletion(list: Todo[]): Todo[] {
         if (this.filter.completion === 'active') {
             return list.filter((task) => !task.isCompleted);
         }
@@ -84,13 +86,13 @@ export class TodoComponent {
         return list;
     }
 
-    orderCompletion(list: Todo[]): Todo[] {
+    private _orderCompletion(list: Todo[]): Todo[] {
         let activeTasks = list.filter((task) => !task.isCompleted);
         let completedTasks = list.filter((task) => task.isCompleted);
         return activeTasks.concat(completedTasks);
     }
 
-    filterByDate(list: Todo[]): Todo[] {
+    private _filterByDate(list: Todo[]): Todo[] {
         let datedTasks = list.filter((task) => task.dueDate !== undefined);
         let undatedTasks = list.filter((task) => task.dueDate === undefined);
         if (this.filter.orderByDate === 'asc') {
@@ -115,24 +117,30 @@ export class TodoComponent {
         return datedTasks.concat(undatedTasks);
     }
 
+    //TODO: read rxjs basics
+
+    //TODO: create service that will recieve filter from url and return observable, use switchMap
+
+    //TODO: use setTimeout()
+
     itemClass(id: string): string {
-        if (this.isSelectedItem(id) && this.isCompletedItem(id)) {
+        if (this._isSelectedItem(id) && this._isCompletedItem(id)) {
             return 'selected-item completed-item';
         }
-        if (this.isSelectedItem(id)) {
+        if (this._isSelectedItem(id)) {
             return 'selected-item';
         }
-        if (this.isCompletedItem(id)) {
+        if (this._isCompletedItem(id)) {
             return 'completed-item';
         }
         return 'active-item';
     }
 
-    isSelectedItem(id: string): boolean {
+    private _isSelectedItem(id: string): boolean {
         return this.selectedTask()?.id === id;
     }
 
-    isCompletedItem(id: string): boolean {
+    private _isCompletedItem(id: string): boolean {
         return this.taskService.findTaskById(id)?.isCompleted || false;
     }
 }
