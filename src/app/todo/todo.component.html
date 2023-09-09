@@ -1,6 +1,6 @@
 <div class="parent-container">
     <div class="todo-container">
-        <app-task-filter></app-task-filter>
+        <app-task-menu></app-task-menu>
         <div class="task-list">
             <ul>
             <li *ngFor="let todo of filteredTaskList" [ngClass]="itemClass(todo.id)">

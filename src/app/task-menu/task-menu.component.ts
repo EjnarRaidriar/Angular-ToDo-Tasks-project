@@ -5,7 +5,7 @@ import { TaskService } from '../task.service';
 
 
 @Component({
-  selector: 'app-task-filter',
+  selector: 'app-task-menu',
   templateUrl: './task-menu.component.html',
   styleUrls: ['./task-menu.component.css']
 })
