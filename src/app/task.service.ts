@@ -19,8 +19,6 @@ export class TaskService {
         search: ''
     });
 
-    selectedTask: WritableSignal<Todo | undefined> = signal(undefined);
-
     taskList: WritableSignal<Todo[]> = signal([]);
 
     changeCompletion(id: string) {
@@ -47,11 +45,6 @@ export class TaskService {
         this.activeFilters.set(filter);
     }
 
-    selectTask(id: string) {
-        const task = this.findTaskById(id);
-        this.selectedTask.set(task!);
-    }
-
     findTaskById(id: string): Todo | undefined{
         return this.taskList().find(todo => todo.id === id);
     }
@@ -72,10 +65,6 @@ export class TaskService {
         return of(this.findTaskById(id)!);
     }
 
-    isSelectedTaskCompleted(): boolean {
-        return this.selectedTask()!.isCompleted;
-    }
-
     uploadData() {
         localStorage.setItem(this._storageKey, JSON.stringify(this.taskList()));
     }
@@ -84,11 +73,5 @@ export class TaskService {
         // localStorage.clear();
         const todoList = <Todo[]>JSON.parse(localStorage.getItem(this._storageKey) || '[]');
         this.taskList.set(todoList);
-        try {
-            const selectedTask = <Todo>JSON.parse(localStorage.getItem('selectedTask') || '{}')
-            this.selectedTask.set(selectedTask);
-        } catch (err) {
-            console.log(err);
-        }
     }
 }

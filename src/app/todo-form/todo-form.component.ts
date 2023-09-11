@@ -44,7 +44,6 @@ export class TodoFormComponent implements OnInit {
             let id = params.get('id');
             if (id) {
                 this.getTask(id);
-                this.taskService.selectTask(id);
                 this.initForm();
             }
         })
@@ -67,7 +66,6 @@ export class TodoFormComponent implements OnInit {
     }
 
     closeForm(): void {
-        this.taskService.selectTask('');
         this.router.navigate(['/todo'], {queryParamsHandling: 'merge'})
     }
 

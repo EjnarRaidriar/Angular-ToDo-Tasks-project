@@ -1,4 +1,4 @@
-import { Component, Signal, computed, effect, inject } from '@angular/core';
+import { Component, Signal, computed, inject } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -7,6 +7,7 @@ import { TaskService } from '../task.service';
 import { Subscription } from 'rxjs';
 
 import { FilterParams } from '../filterParams.interface';
+import { TaskFilterService } from '../task-filter.service';
 import { Todo } from '../todo.interface';
 
 @Component({
@@ -15,9 +16,6 @@ import { Todo } from '../todo.interface';
   styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent {
-    
-    selectedTask: Signal<Todo | undefined> = computed(() => {
-        return this.taskService.selectedTask()});
 
     taskList: Signal<Todo[]> = computed(() => {
         return this.taskService.taskList()});
@@ -35,6 +33,7 @@ export class TodoComponent {
     router = inject(Router);
     route = inject(ActivatedRoute);
     taskService = inject(TaskService);
+    filterService = inject(TaskFilterService);
 
     filterSubscribtion: Subscription | undefined = undefined;
     
@@ -46,6 +45,7 @@ export class TodoComponent {
                 orderByDate: params['orderByDate'] || 'default',
                 search: params['search'] || ''
             }
+            this.filterService.filterTasks(this.filter, this.taskList());
             this._filterTasks();
         })
     }
@@ -60,7 +60,6 @@ export class TodoComponent {
 
     selectTask(id: string) {
         this.router.navigate(['/todo', id], {queryParamsHandling: 'merge'});
-        this.taskService.selectTask(id);
     }
 
     private _filterTasks() {
@@ -124,20 +123,10 @@ export class TodoComponent {
     //TODO: use setTimeout()
 
     itemClass(id: string): string {
-        if (this._isSelectedItem(id) && this._isCompletedItem(id)) {
-            return 'selected-item completed-item';
-        }
-        if (this._isSelectedItem(id)) {
-            return 'selected-item';
-        }
         if (this._isCompletedItem(id)) {
             return 'completed-item';
         }
         return 'active-item';
-    }
-
-    private _isSelectedItem(id: string): boolean {
-        return this.selectedTask()?.id === id;
     }
 
     private _isCompletedItem(id: string): boolean {
