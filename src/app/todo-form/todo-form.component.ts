@@ -5,10 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import * as moment from 'moment';
-import { Subscription, merge } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { TaskService } from '../task.service';
 import { Todo } from '../todo.interface';
+import { StateService } from '../state.service';
 
 interface TodoForm {
     title: FormControl<string>;
@@ -29,8 +30,9 @@ export class TodoFormComponent implements OnInit {
     isNewTask: boolean = true;
 
     route = inject(ActivatedRoute);
-    taskService = inject(TaskService);
     router = inject(Router);
+    taskService = inject(TaskService);
+    stateService = inject(StateService);
 
     taskForm = new FormGroup<TodoForm>({
         title: new FormControl('', {nonNullable: true}),
@@ -43,6 +45,7 @@ export class TodoFormComponent implements OnInit {
         this.subscribtion = this.route.paramMap.subscribe((params) => {
             let id = params.get('id');
             if (id) {
+                this.stateService.selectTask(id);
                 this.getTask(id);
                 this.initForm();
             }
@@ -66,6 +69,7 @@ export class TodoFormComponent implements OnInit {
     }
 
     closeForm(): void {
+        this.stateService.selectTask('');
         this.router.navigate(['/todo'], {queryParamsHandling: 'merge'})
     }
 

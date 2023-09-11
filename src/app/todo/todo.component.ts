@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { FilterParams } from '../filterParams.interface';
 import { TaskFilterService } from '../task-filter.service';
 import { Todo } from '../todo.interface';
+import { StateService } from '../state.service';
 
 @Component({
   selector: 'app-todo',
@@ -16,6 +17,12 @@ import { Todo } from '../todo.interface';
   styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent {
+
+    //activeRoute
+
+    selectedId: Signal<string> = computed(() => {
+        return this.selectionService.selectedId();
+    });
 
     filteredTaskList: Signal<Todo[]> = computed(() => {
         return this.filterService.filterTasks(this.filter(), this.taskService.taskList());
@@ -31,8 +38,10 @@ export class TodoComponent {
     route = inject(ActivatedRoute);
     taskService = inject(TaskService);
     filterService = inject(TaskFilterService);
+    selectionService = inject(StateService);
 
     filterSubscribtion: Subscription | undefined = undefined;
+    selectedTaskSubscribtion: Subscription | undefined = undefined;
     
     ngOnInit(): void {
         this.taskService.loadData();
@@ -42,7 +51,7 @@ export class TodoComponent {
                 orderByDate: params['orderByDate'] || 'default',
                 search: params['search'] || ''
             })
-        })
+        });
     }
 
     ngOnDestroy(): void {
@@ -54,16 +63,19 @@ export class TodoComponent {
     }
 
     selectTask(id: string) {
+        this.selectionService.selectTask(id);
         this.router.navigate(['/todo', id], {queryParamsHandling: 'merge'});
     }
 
     //TODO: read rxjs basics
 
-    //TODO: create service that will recieve filter from url and return observable, use switchMap
-
-    //TODO: use setTimeout()
-
     itemClass(id: string): string {
+        if (this.selectedId() === id) {
+            if (this._isCompletedItem(id)) {
+                return 'selected-item completed-item';
+            }
+            return 'selected-item';
+        }
         if (this._isCompletedItem(id)) {
             return 'completed-item';
         }

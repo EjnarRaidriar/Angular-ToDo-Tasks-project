@@ -1,3 +1,4 @@
+import { StateService } from '../state.service';
 import { Component, Signal, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterParams, Completion, OrderByDate } from '../filterParams.interface';
@@ -14,6 +15,7 @@ export class TaskMenuComponent {
     router = inject(Router);
     route = inject(ActivatedRoute);
     taskService = inject(TaskService);
+    stateService = inject(StateService);
 
     filter: Signal<FilterParams> = computed(() => {
         return this.taskService.activeFilters();
@@ -111,6 +113,7 @@ export class TaskMenuComponent {
     }
 
     newTask() {
+        this.stateService.selectTask('');
         this.router.navigate(
             ["todo/new-task"],
             {
