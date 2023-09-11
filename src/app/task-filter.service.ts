@@ -9,6 +9,7 @@ export class TaskFilterService {
 
     filterTasks(filter: FilterParams, taskList: Todo[]): Todo[] {
         let filteredTasks = taskList;
+        // Order is important
         filteredTasks = this._filterSearch(filter, filteredTasks);
         filteredTasks = this._filterCompletion(filter, filteredTasks);
         filteredTasks = this._filterByDate(filter, filteredTasks);
@@ -16,11 +17,11 @@ export class TaskFilterService {
         return filteredTasks;
     }
 
-    private _filterSearch(filter: FilterParams ,list: Todo[]): Todo[] {
+    private _filterSearch(filter: FilterParams, list: Todo[]): Todo[] {
         return list.filter(task => task.title.toLowerCase().includes(filter.search));
     }
 
-    private _filterCompletion(filter: FilterParams,list: Todo[]): Todo[] {
+    private _filterCompletion(filter: FilterParams, list: Todo[]): Todo[] {
         if (filter.completion === 'active') {
             return list.filter((task) => !task.isCompleted);
         }
@@ -30,7 +31,7 @@ export class TaskFilterService {
         return list;
     }
 
-    private _filterByDate(filter: FilterParams,list: Todo[]): Todo[] {
+    private _filterByDate(filter: FilterParams, list: Todo[]): Todo[] {
         let datedTasks = list.filter((task) => task.dueDate !== undefined);
         let undatedTasks = list.filter((task) => task.dueDate === undefined);
         if (filter.orderByDate === 'asc') {
